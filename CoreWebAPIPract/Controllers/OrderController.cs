@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoreWebAPIPract.Controllers
 {
     [ApiController]
-    [Route("api/orders")]
+    [Route("api/{controller}")]
     //[LogAction]
     public class OrderController : ControllerBase
     {
@@ -16,11 +16,11 @@ namespace CoreWebAPIPract.Controllers
             _order = order;
         }
 
-        public IActionResult PlaceOrder()
-        {
-            _order.PlaceOrder();
-            return Ok();
-        }
+        //public IActionResult PlaceOrder()
+        //{
+        //    _order.PlaceOrder();
+        //    return Ok();
+        //}
 
         [HttpGet("{id:int}")]
         public IActionResult GetOrder(int id) => Ok();
