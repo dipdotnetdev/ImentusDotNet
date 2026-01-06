@@ -3,6 +3,7 @@ using CoreWebAPIPract.Fileters;
 using CoreWebAPIPract.IdentityBasedAuth;
 using CoreWebAPIPract.Middleware;
 using CoreWebAPIPract.Option_Pattern;
+using CoreWebAPIPract.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<LogActionFilter>();
 builder.Services.AddScoped<INotificationService, EmailService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 //Versioning
 builder.Services.AddApiVersioning(options =>

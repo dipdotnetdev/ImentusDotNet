@@ -15,80 +15,80 @@ namespace CoreWebAPIPract.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
-        public IActionResult GetDepartment_Lazy()
-        {
-            var departments = _dbContext.Departments.ToList();
+        //[HttpGet]
+        //public IActionResult GetDepartment_Lazy()
+        //{
+        //    var departments = _dbContext.Departments.ToList();
 
-            var result = new List<DepartmentDTO>();
+        //    var result = new List<DepartmentDTO>();
 
-           foreach(var department in departments)
-            {
-                var employees = department.Employees;
+        //   foreach(var department in departments)
+        //    {
+        //        var employees = department.Employees;
 
-                result.Add(new DepartmentDTO
-                {
-                    Id = department.Id,
-                    Name = department.Name,
-                    Employees = employees.Select(e => new EmployeeDTO
-                    {
-                        Id = e.Id,
-                        Name = e.Name,
-                    }).ToList()
-                });
-            }
+        //        result.Add(new DepartmentDTO
+        //        {
+        //            Id = department.Id,
+        //            Name = department.Name,
+        //            Employees = employees.Select(e => new EmployeeDTO
+        //            {
+        //                Id = e.Id,
+        //                Name = e.Name,
+        //            }).ToList()
+        //        });
+        //    }
 
-           return Ok(result);
-        }
+        //   return Ok(result);
+        //}
 
 
-        [HttpGet]
-        public IActionResult GetDepartment_Eager()
-        {
-            var departments = _dbContext.Departments
-                .Include(e => e.Employees).ToList();
+        //[HttpGet]
+        //public IActionResult GetDepartment_Eager()
+        //{
+        //    var departments = _dbContext.Departments
+        //        .Include(e => e.Employees).ToList();
 
-            var result = departments.Select(dept => new DepartmentDTO
-            {
-                Id = dept.Id,
-                Name = dept.Name,
-                Employees = dept.Employees.Select(e => new EmployeeDTO
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                }).ToList(),
-            });
+        //    var result = departments.Select(dept => new DepartmentDTO
+        //    {
+        //        Id = dept.Id,
+        //        Name = dept.Name,
+        //        Employees = dept.Employees.Select(e => new EmployeeDTO
+        //        {
+        //            Id = e.Id,
+        //            Name = e.Name,
+        //        }).ToList(),
+        //    });
 
-            ////Best Practice
-            //var result = _dbContext.Departments.Select(dept => new DepartmentDTO
-            //{
-            //    Id =dept.Id,
-            //    Name = dept.Name,
-            //    Employees = dept.Employees.Select(e => new EmployeeDTO
-            //    {
-            //        Id = e.Id,
-            //        Name= e.Name,
+        //    ////Best Practice
+        //    //var result = _dbContext.Departments.Select(dept => new DepartmentDTO
+        //    //{
+        //    //    Id =dept.Id,
+        //    //    Name = dept.Name,
+        //    //    Employees = dept.Employees.Select(e => new EmployeeDTO
+        //    //    {
+        //    //        Id = e.Id,
+        //    //        Name= e.Name,
 
-            //    }).ToList()
-            //}).ToList();
+        //    //    }).ToList()
+        //    //}).ToList();
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
-        [HttpGet]
-        public IActionResult GetDepartment_Explicit(int id, bool includeEmployees = false)
-        {
-            var departments = _dbContext.Departments.Find(id);
+        //[HttpGet]
+        //public IActionResult GetDepartment_Explicit(int id, bool includeEmployees = false)
+        //{
+        //    var departments = _dbContext.Departments.Find(id);
 
-            if (includeEmployees)
-            {
-                _dbContext.Entry(departments)
-                    .Collection(e => e.Employees)
-                    .Load();
-            }
+        //    if (includeEmployees)
+        //    {
+        //        _dbContext.Entry(departments)
+        //            .Collection(e => e.Employees)
+        //            .Load();
+        //    }
 
-            return Ok(departments);
-        }
+        //    return Ok(departments);
+        //}
         
         
     }
