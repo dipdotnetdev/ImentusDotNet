@@ -1,3 +1,4 @@
+using CoreWebAPIPract.BackgroundServices;
 using CoreWebAPIPract.DI;
 using CoreWebAPIPract.Fileters;
 using CoreWebAPIPract.IdentityBasedAuth;
@@ -15,7 +16,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSingleton<ILogRepository, LogRepository>();
+builder.Services.AddHostedService<DbInsertBackgroundService>();
+builder.Services.AddHostedService<DbInsertHostedService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
