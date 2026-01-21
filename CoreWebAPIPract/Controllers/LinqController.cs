@@ -3,6 +3,8 @@ using CoreWebAPIPract.IdentityBasedAuth;
 using CoreWebAPIPract.Models;
 using CoreWebAPIPract.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreWebAPIPract.Controllers
 {
@@ -47,6 +49,14 @@ namespace CoreWebAPIPract.Controllers
             _repo.CreateEmployeeProject(employeeProject);
 
             return Ok();
+        }
+
+        [HttpPost("get-employee")]
+        public Employees GetEmployeeBySproc(int id)
+        {
+            return _context.Employees.FromSqlRaw("EXEC Employee_Get @EmployeeId", new SqlParameter("@EmployeeId", id))
+            .AsEnumerable()
+            .FirstOrDefault();
         }
 
         [HttpGet]
@@ -167,6 +177,24 @@ namespace CoreWebAPIPract.Controllers
             //
 
             return Ok(result);
+        }
+
+        [HttpGet("employees")]
+        public IActionResult GetAllEmployees()
+        {
+            var employees = _context.Employees
+                .Select(e => new EmployeeDTO
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Email = e.Email,
+                    Salary = e.Salary,
+                    DepartmentId = e.DepartmentId,
+                    JoinDate = e.JoinDate
+                })
+                .ToList();
+
+            return Ok(employees);
         }
     }
 }

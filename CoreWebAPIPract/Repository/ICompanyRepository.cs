@@ -9,5 +9,6 @@ namespace CoreWebAPIPract.Repository
         Task CreateDepartment(DepartmentDTO departmentDTO);
         Task CreateProject(ProjectDTO projectDTO);
         Task CreateEmployeeProject(EmployeeProjectDTO employeeProjectDTO);
+        List<EmployeeDTO> GetAllEmployees();
     }
 }

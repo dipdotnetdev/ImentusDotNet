@@ -100,5 +100,29 @@ namespace CoreWebAPIPract.Repository
 
             return result;
         }
+
+        public List<EmployeeDTO> GetAllEmployees()
+        {
+            var employees = _context.Employees.ToList();
+
+            List<EmployeeDTO> result = new List<EmployeeDTO>();
+
+            foreach (var employee in employees)
+            {
+                var dto = new EmployeeDTO
+                {
+                    Id = employee.Id,
+                    Name = employee.Name,
+                    DepartmentId = employee.DepartmentId,
+                    Salary = employee.Salary,
+                    Email = employee.Email,
+                    JoinDate = employee.JoinDate
+                };
+
+                result.Add(dto);
+            }
+
+            return result;
+        }
     }
 }

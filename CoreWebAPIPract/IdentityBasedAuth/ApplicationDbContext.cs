@@ -19,6 +19,7 @@ namespace CoreWebAPIPract.IdentityBasedAuth
         public DbSet<Department> Departments { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<EmployeeProject> EmployeeProjects { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,6 +36,9 @@ namespace CoreWebAPIPract.IdentityBasedAuth
                 .HasOne(ep => ep.Project)
                 .WithMany(p => p.EmployeeProjects)
                 .HasForeignKey(ep => ep.ProjectId);
+
+            //modelBuilder.Entity<RefreshToken>()
+            //    .HasKey(rt => new { rt.UserId });
 
             //builder.Entity<Employees>()
             //    .ToTable("tbl_employee");

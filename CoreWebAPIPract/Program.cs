@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
         BearerFormat = "JWT",
-        In = ParameterLocation.Header,  
+        In = ParameterLocation.Header,
         Description = "Please enter bearer token"
     });
 
@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen(options =>
             Array.Empty<string>()
         }
     });
-});   
+});
 builder.Services.AddScoped<LogActionFilter>();
 builder.Services.AddScoped<INotificationService, EmailService>();
 builder.Services.AddScoped<OrderService>();
@@ -100,7 +100,17 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddAuthorization();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:51376") // Angular URL
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 
 var app = builder.Build();
@@ -135,6 +145,7 @@ app.Use(async (context, next) =>
     Console.WriteLine("after next");
 });
 app.UseMiddleware<LoggingMiddleware>();
+app.UseCors("AllowAngular");
 app.UseAuthentication();
 app.UseAuthorization();
 
